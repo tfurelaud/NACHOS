@@ -1,0 +1,27 @@
+#include "syscall.h"
+
+int putchar(void* c){
+  char *a = (char*) c;
+  volatile int i = 0;
+  for(i;i<10;i++){
+      PutChar(*a);
+  }
+  ThreadExit();
+  return 0;
+}
+
+int main(){
+  char arg ='a';
+  char arg2 = 'b';
+  char arg3 = 'c';
+  char arg4 = 'd';
+  char arg5 = 'e';
+  ThreadCreate(putchar, &arg);
+  ThreadCreate(putchar, &arg2);
+  ThreadCreate(putchar, &arg3);
+  ThreadCreate(putchar, &arg4);
+  ThreadCreate(putchar, &arg5);
+
+  //GetChar(arg); //Attente de fin de fonction (putchar)
+  return 0;
+}

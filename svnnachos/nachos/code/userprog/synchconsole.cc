@@ -1,0 +1,94 @@
+#ifdef CHANGED
+
+#include "copyright.h"
+#include "system.h"
+#include "synchconsole.h"
+#include "synch.h"
+
+static Semaphore *readAvail;
+static Semaphore *writeDone;
+
+static void ReadAvailHandler(void *arg) { (void) arg; readAvail->V(); }
+static void WriteDoneHandler(void *arg) { (void) arg; writeDone->V(); }
+
+
+
+SynchConsole::SynchConsole(const char *in, const char *out){
+  readAvail = new Semaphore("read avail", 0);
+  writeDone = new Semaphore("write done", 0);
+  #ifdef CHANGED
+  console = new Console(in, out, ReadAvailHandler, WriteDoneHandler, 0);
+  ecritureChar = new Semaphore("writing char", 1);
+  lectureChar = new Semaphore("reading char", 1);
+
+  ecritureString = new Semaphore("writing string", 1);
+  lectureString = new Semaphore("reading string", 1);
+  #endif //CHANGED
+}
+
+SynchConsole::~SynchConsole(){
+  delete console;
+  delete writeDone;
+  delete readAvail;
+  delete ecritureChar;
+  delete lectureChar;
+  delete ecritureString;
+  delete lectureString;
+}
+
+void SynchConsole::SynchPutChar(int ch){
+  ecritureChar->P();
+  console->PutChar(ch);
+  writeDone->P();
+  ecritureChar->V();
+}
+
+int SynchConsole::SynchGetChar(){
+  lectureChar->P();
+  readAvail->P();
+  int ch = console->GetChar();
+  lectureChar->V();
+  return ch;
+}
+
+void SynchConsole::SynchPutString(const char s[]){
+  ecritureString->P();
+  int i = 0;
+  while(s[i]!='\0'){
+    SynchPutChar(s[i]);
+    i++;
+  }
+  ecritureString->V();
+}
+
+void SynchConsole::SynchGetString(char *s, int n){
+  lectureString->P();
+  int cpt = 0;
+  char ch;
+  ch = SynchGetChar();
+  while(cpt < n && ch != EOF && ch!='\n'){
+    s[cpt] = ch;
+    ch = SynchGetChar();
+    cpt++;
+  }
+  s[cpt]='\0';
+  lectureString->V();
+}
+
+void SynchConsole::SynchPutInt(int n){
+  char *buffer = new char[MAX_STRING_SIZE];
+  snprintf(buffer,MAX_STRING_SIZE,"%d\n",n);
+  SynchPutString(buffer);
+  delete [] buffer;
+}
+
+void SynchConsole::SynchGetInt(int *n){
+  char *buffer = new char[MAX_STRING_SIZE];
+  SynchGetString(buffer, MAX_STRING_SIZE);
+  sscanf(buffer, "%d\n", n);
+  delete [] buffer;
+}
+
+
+
+#endif // CHANGED

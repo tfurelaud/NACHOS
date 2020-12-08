@@ -1,0 +1,56 @@
+#ifdef CHANGED
+
+#include "thread.h"
+#include "system.h"
+#include "userthread.h"
+
+
+typedef struct{
+  int func;
+  int argv;
+}ThreadArguments;
+
+int do_ThreadCreate(int f, int arg){
+  Thread *t = new Thread("ThreadCreate");
+
+  if(t==NULL){
+    printf("Thread non created\n");
+    return -1;
+  }
+
+  ThreadArguments *args = new ThreadArguments;
+
+  args->func = f;
+  args->argv = arg;
+
+  t->Start(StartUserThread,(void*) args);
+
+
+  return 0;
+}
+
+static void StartUserThread(void *schmurtz){
+  ThreadArguments *args = (ThreadArguments *) schmurtz;
+
+  for(int i=0; i<NumTotalRegs;i++){
+    machine->WriteRegister(i,0);
+  }
+
+  DEBUG('x', "function args %d\n", args->func);
+  DEBUG('x', "argv args %d\n", args->argv);
+  machine->WriteRegister(PCReg, args->func);
+  machine->WriteRegister(4, args->argv);
+  DEBUG('x', "NextPCReg %d\n", args->func+4);
+  machine->WriteRegister(NextPCReg, (args->func)+4);
+  
+  machine->Run();
+}
+
+int do_ThreadExit(){
+  
+  currentThread->Finish();
+
+  return 0;
+}
+
+#endif //CHANGED

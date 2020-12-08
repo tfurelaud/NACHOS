@@ -1,0 +1,13 @@
+#ifdef CHANGED
+
+#include "thread.h"
+
+in do_ThreadCreate(int f, int arg){
+  
+  
+
+}
+
+
+
+#endif //CHANGED

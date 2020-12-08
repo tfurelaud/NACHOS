@@ -1,0 +1,13 @@
+#include "syscall.h"
+
+void putchar(char c){
+  SynchPutChar(c);
+  ThreadExit();
+}
+int main(){
+  int id = 1;
+  void *func = putchar;
+  int res = ThreadCreate(func, &id);
+
+  SynchPutChar("F");
+}

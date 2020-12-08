@@ -1,0 +1,26 @@
+#include "syscall.h"
+
+int putchar(void* c){
+  int *a = (int*) c;
+  volatile int i = 0;
+  for(i;i<10;i++){
+      PutInt(*a);
+  }
+  ThreadExit();
+  return 0;
+}
+
+int main(){
+  int arg = 10;
+  int arg2 = 11;
+  int arg3 = 6;
+  int arg4 = 56;
+  //int arg2 = 4;
+  ThreadCreate(putchar, &arg);
+  ThreadCreate(putchar, &arg2);
+  ThreadCreate(putchar, &arg3);
+  ThreadCreate(putchar, &arg4);
+
+  //GetChar(arg); //Attente de fin de fonction (putchar)
+  return 0;
+}

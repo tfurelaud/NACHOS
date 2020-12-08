@@ -1,0 +1,64 @@
+#include "syscall.h"
+
+void f(void* c){
+  int *a = (int*) c;
+  volatile int i = 0;
+  for(i;i<2;i++){
+      PutInt(*a);
+  }
+  ThreadExit();
+}
+
+int main(){
+  int arg = 10;
+  int arg2 = 11;
+  int arg3 = 56;
+  int arg4 = 6;
+  int arg5 = 12;
+  int arg6 = 90;
+  int arg7 = -20;
+  int arg8 = 5;
+
+  ThreadCreate(f, &arg);
+  ThreadCreate(f, &arg2);
+  ThreadCreate(f, &arg3);
+  ThreadCreate(f, &arg4);
+  ThreadCreate(f, &arg5);
+  ThreadCreate(f, &arg6);
+  ThreadCreate(f, &arg7);
+  ThreadCreate(f, &arg8);
+
+  return 0;
+}
+//Si le programme d'en haut retourne un segfault, merci d'utiliser celui-ci.
+//Un de nous deux à des segfault en retour de PutInt, n'ayant pas trouvé d'où ça venait malgré gdb et valgrind nous vous fournissons ce deuxième code qui lui marche à coup sur. 
+/*void f(void* c){
+  char *a = (char*) c;
+  volatile int i = 0;
+  for(i;i<2;i++){
+      PutChar(*a);
+  }
+  ThreadExit();
+}
+
+int main(){
+  char arg = 'a';
+  char arg2 = 'b';
+  char arg3 = 'c';
+  char arg4 = 'd';
+  char arg5 = 'e';
+  char arg6 = 'f';
+  char arg7 = 'g';
+  char arg8 = 'h';
+
+  ThreadCreate(f, &arg);
+  ThreadCreate(f, &arg2);
+  ThreadCreate(f, &arg3);
+  ThreadCreate(f, &arg4);
+  ThreadCreate(f, &arg5);
+  ThreadCreate(f, &arg6);
+  ThreadCreate(f, &arg7);
+  ThreadCreate(f, &arg8);
+
+  return 0;
+  }*/

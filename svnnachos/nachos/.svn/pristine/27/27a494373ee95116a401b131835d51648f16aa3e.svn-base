@@ -1,0 +1,25 @@
+#include "syscall.h"
+
+int putchar(void* c){
+  char *a = (char*) c;
+  PutChar(*a);
+  PutChar('\n');
+  PutChar('\n');
+  PutChar('\n');
+  PutChar('\n');
+  PutChar('\n');
+  PutChar('\n');
+  PutChar('\n');
+  PutChar('\n');
+  PutChar('\n');
+  ThreadExit();
+}
+
+int main(){
+  char arg = 'c';
+  ThreadCreate(putchar, &arg);
+  PutChar('e');
+  ThreadExit();
+  //GetChar(arg); //Attente de fin de fonction (putchar)
+  return 0;
+}

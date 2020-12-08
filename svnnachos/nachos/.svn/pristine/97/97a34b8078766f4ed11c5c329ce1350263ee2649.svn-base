@@ -1,0 +1,10 @@
+#include "syscall.h"
+
+
+int main(){
+  int arg = 'c';
+  void *func = PutChar;
+  int res = ThreadCreate(func, &arg);
+
+  return res;
+}

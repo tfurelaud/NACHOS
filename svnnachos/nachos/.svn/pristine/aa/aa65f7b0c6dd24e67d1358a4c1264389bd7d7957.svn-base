@@ -1,0 +1,34 @@
+#include "syscall.h"
+
+void f(void* c){
+  char *a = (char*) c;
+  volatile int i = 0;
+  for(i;i<2;i++){
+      PutString("On est dans un thread utilisateur\n");
+      PutChar(a);
+      PutChar('\n');
+  }
+  ThreadExit();
+}
+
+int main(){
+  char arg = 'a';
+  char arg2 = 'b';
+  char arg3 = 'c';
+  char arg4 = 'd';
+  /*int arg5 = 12;
+  int arg6 = 90;
+  int arg7 = -20;
+  int arg8 = 5;*/
+
+  ThreadCreate(f, &arg);
+  ThreadCreate(f, &arg2);
+  ThreadCreate(f, &arg3);
+  ThreadCreate(f, &arg4);
+  /*ThreadCreate(f, &arg5);
+  ThreadCreate(f, &arg6);
+  ThreadCreate(f, &arg7);
+  ThreadCreate(f, &arg8);*/
+
+  return 0;
+}

@@ -1,0 +1,11 @@
+#include "syscall.h"
+
+int main(){
+  int n = 10;
+  int n2 = 1515316574;
+
+  PutInt(n);
+  PutInt(n2);
+  return 0;
+
+}

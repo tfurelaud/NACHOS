@@ -1,0 +1,33 @@
+#include "syscall.h"
+
+int f(void* c){
+  char *a = (char*) c;
+  volatile int i = 0;
+  for(i;i<2;i++){
+      PutInt(*a);
+  }
+  ThreadExit();
+  return 0;
+}
+
+int main(){
+  int arg = 10;
+  int arg2 = 11;
+  int arg3 = 56;
+  int arg4 = 6;
+  int arg5 = 12;
+  int arg6 = 90;
+  int arg7 = -20;
+  int arg8 = 5;
+
+  ThreadCreate(f, &arg);
+  ThreadCreate(f, &arg2);
+  ThreadCreate(f, &arg3);
+  ThreadCreate(f, &arg4);
+  ThreadCreate(f, &arg5);
+  ThreadCreate(f, &arg6);
+  ThreadCreate(f, &arg7);
+  ThreadCreate(f, &arg8);
+
+  return 0;
+}

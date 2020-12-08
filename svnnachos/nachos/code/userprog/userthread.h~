@@ -1,0 +1,10 @@
+#ifdef CHANGED
+
+#include "thread.h"
+
+
+extern int do_ThreadCreate(int f, int arg);
+extern void StartUserThread(void *schmurtz);
+extern int do_ThreadExit();
+
+#endif //CHANGED

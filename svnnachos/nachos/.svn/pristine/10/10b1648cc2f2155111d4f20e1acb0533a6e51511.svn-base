@@ -1,0 +1,23 @@
+#include "syscall.h"
+
+int main(){
+        int n=30;
+        char s[n];
+	int n2=50;
+	char s2[n2];
+
+
+	GetString(s,n);
+
+	PutString(s);
+	PutChar('\n');
+
+
+	//Taille de la chaîne plus grande que la taille du buffer.
+	/*GetString(s2,n2);
+
+	PutString(s2);
+	PutChar('\n');*/
+	
+	return 0;
+}

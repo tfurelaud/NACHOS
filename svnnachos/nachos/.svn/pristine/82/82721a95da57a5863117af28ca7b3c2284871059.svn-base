@@ -1,0 +1,22 @@
+PARTIE 1
+
+Le résultat attendu est l'affichage de a, b, c et d.
+
+PARTIE 2
+
+Il ne faut pas chercher à lire un caractère avant d'être averti qu'un caractère est disponible car on fait trop d'interruptions pour rien? 
+Si on cherche à écrire un caractère alors qu'on n'a pas été averti que l'écriture de celui d'avant est finie on écrase le premier caractère par le premier. 
+
+ Action II.1 -> Attend qu'on écrive un car.
+		Examine le caractère qu'on a ecrit.
+		Réecrit le car.
+		Attend que l'écriture soit finie.
+		Si le car est un q alors on quitte le prog.
+
+ Action II.2 -> action pas comprise ?
+
+ Action II.3 -> Met des <> aussi pour le \n. Les enlever ou pas ?
+	
+ Action II.4 -> OK
+
+PARITE 3

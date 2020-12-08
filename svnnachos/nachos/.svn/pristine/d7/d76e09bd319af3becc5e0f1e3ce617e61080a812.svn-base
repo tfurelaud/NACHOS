@@ -1,0 +1,36 @@
+#include "syscall.h"
+
+int putchar(void* c){
+  char *a = (char*) c;
+  PutChar(*a);
+  PutChar('\n');
+  PutChar('\n');
+  PutChar('\n');
+  PutChar('\n');
+  PutChar('\n');
+  PutChar('\n');
+  PutChar('\n');
+  PutChar('\n');
+  PutChar('\n');
+  // while(1){
+    //Le programme ne doit pas s'arreter d'après la question II.2 car
+    //Le thread ne finit jamais.
+  //}
+  ThreadExit();
+  return 0;
+}
+
+void boucle(void* a){
+  volatile int *i = (int*) a;
+  int f;
+  ThreadExit();
+}
+
+int main(){
+  char arg = 'c';
+  //int arg2 = 4;
+  ThreadCreate(putchar, &arg);
+  //ThreadCreate(boucle, &arg2);
+  //GetChar(arg); //Attente de fin de fonction (putchar)
+  return 0;
+}
